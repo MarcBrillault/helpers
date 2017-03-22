@@ -8,7 +8,7 @@ These helpers are made specifically for command-line interfaces (CLI)
 
 ## getCliArguments
 
-Just add `$args = getCliArguments();` at the beginning of your CLI script, ans use your CLI script as you do with a bash
+Just add `$args = getCliArguments();` at the beginning of your CLI script, and use your CLI script as you do with a bash
 script.
 
 ```
