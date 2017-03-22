@@ -11,7 +11,7 @@ This method allows to pass the arguments as you'll do in a normal bash script, i
 Simply call `$args = getCliArguments()` at the beginning of your script, and call it with the arguments you want, like so :
 
 ```
-php myscript.php -arg1 myFirstArg -arg2 "My second argument" --test
+php myscript.php -arg1 myFirstArg -arg2 "My second argument" -test
 ```
 
 `$args` is now an array containing :
@@ -23,30 +23,25 @@ It is also possible to limit the available arguments, by setting them as the fir
 
 ```php
 $availableArgs = [
-    'v',
-    'p',
-];
-// or
-$availableArgs = [
-    'v' => 'verbose',
-    'p' => 'productId',
+    'verbose',
+    'productId',
 ];
 
 $args = getCliArguments($availableArgs);
 
 ```
 
-Now, if any of the CLI parameters is not in the given list (`v` or `p`, the second version also accepts `verbose` and `productId`), the script dies with an error message.
+Now, if any of the CLI parameters is not in the given list, the script dies with an error message.
 
 ```
-php myscript.php -p 159 -v
+php myscript.php -productId 159 -verbose -unallowedParameter
 ```
 
-As for the `$args` value, with the previous call, the corresponding values will be the following :
-- p: 159
-- v: true
+As `unallowedParameter` is not whitelisted, the script dies and explains the available arguments.
 
-and
-
-- productId: 159
-- verbose: true
+```
+Argument not allowed : unallowedParameter
+Allowed params are :
+        -productId
+        -verbose
+```

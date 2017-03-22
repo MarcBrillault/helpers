@@ -9,7 +9,7 @@
 function getCliArguments(array $allowedArgs = [])
 {
     $return      = [];
-    $regArgument = '/^--?[\w]+$/';
+    $regArgument = '/^-[\w]+$/';
 
     global $argv;
     unset($argv[0]);
@@ -22,17 +22,9 @@ function getCliArguments(array $allowedArgs = [])
                 // New argument detected
                 $currentArg = trim($arg, '-');
 
-                if (!empty($allowedArgs)) {
-                    // $allowedArgs management
-                    if (!in_array($currentArg, $allowedArgs) && !array_key_exists($currentArg, $allowedArgs)) {
-                        // Error if the given argument is not whitelisted
-                        throw new Exception(sprintf('Argument not allowed : %s', $currentArg));
-                    }
-
-                    // currentArg update
-                    if (array_key_exists($currentArg, $allowedArgs)) {
-                        $currentArg = $allowedArgs[$currentArg];
-                    }
+                if (!empty($allowedArgs) && !in_array($currentArg, $allowedArgs)) {
+                    // Error if the given argument is not whitelisted
+                    throw new Exception(sprintf('Argument not allowed : %s', $currentArg));
                 }
 
                 // New argument's default value is always true
@@ -55,11 +47,7 @@ function getCliArguments(array $allowedArgs = [])
             // If $allowedArgs is set, an error triggers the manual
             $errorMessage .= 'Allowed params are :' . PHP_EOL;
             foreach ($allowedArgs as $key => $value) {
-                if (is_numeric($key)) {
-                    $errorMessage .= sprintf("\t-%s" . PHP_EOL, $value);
-                } else {
-                    $errorMessage .= sprintf("\t-%s (--%s)" . PHP_EOL, $key, $value);
-                }
+                $errorMessage .= sprintf("\t-%s" . PHP_EOL, $value);
             }
         }
         die($errorMessage);

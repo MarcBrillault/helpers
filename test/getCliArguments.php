@@ -5,18 +5,10 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $args = getCliArguments();
 var_dump($args);
 
-// with simple parameters
-// $params = [
-//     'p',
-//     'v',
-// ];
-// $args   = getCliArguments($params);
-// var_dump($args);
-
-// with complex parameters
+// with parameters
 $params = [
-    'p' => 'product',
-    'v' => 'verbose',
+    'productId',
+    'verbose',
 ];
 $args   = getCliArguments($params);
 var_dump($args);
