@@ -6,6 +6,19 @@ These are some of the functions I use intensively for my projects.
 
 These helpers are made specifically for command-line interfaces (CLI)
 
+## cliSpinner
+
+Adds a nice spinner to your loops.
+
+```php
+foreach($myvar as $var) {
+    cliSpinner('Manipulating data');
+    // Do something
+}
+cliSpinner('Done !', true);
+
+```
+
 ## getCliArguments
 
 Just add `$args = getCliArguments();` at the beginning of your CLI script, and use your CLI script as you do with a bash
