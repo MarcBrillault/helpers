@@ -1,33 +1,12 @@
 <?php
 
 /**
- * @param string $message
- * @param bool   $end
- */
-function cliSpinner($message = 'Performing action', $end = false)
-{
-    $phases = '\|-/';
-
-    if (!isset($GLOBALS['cliSpinnerIndex']) || $GLOBALS['cliSpinnerIndex'] >= strlen($phases)) {
-        $GLOBALS['cliSpinnerIndex'] = 0;
-    }
-
-    if ($end) {
-        printf('%s%s' . PHP_EOL, chr(8), $message);
-    } else {
-        printf('%s%s %s', chr(13), $message, $phases[$GLOBALS['cliSpinnerIndex']]);
-    }
-
-    $GLOBALS['cliSpinnerIndex']++;
-}
-
-/**
  * Returns an array with the script's arguments
  *
  * @param array $allowedArgs
  * @return array
  */
-function getCliArguments(array $allowedArgs = [])
+function cliArguments(array $allowedArgs = [])
 {
     $return      = [];
     $regArgument = '/^-[\w]+$/';
@@ -75,4 +54,23 @@ function getCliArguments(array $allowedArgs = [])
     return $return;
 }
 
+/**
+ * @param string $message
+ * @param bool   $end
+ */
+function cliSpinner($message = 'Performing action', $end = false)
+{
+    $phases = '\|-/';
 
+    if (!isset($GLOBALS['cliSpinnerIndex']) || $GLOBALS['cliSpinnerIndex'] >= strlen($phases)) {
+        $GLOBALS['cliSpinnerIndex'] = 0;
+    }
+
+    if ($end) {
+        printf('%s%s' . PHP_EOL, chr(8), $message);
+    } else {
+        printf('%s%s %s', chr(13), $message, $phases[$GLOBALS['cliSpinnerIndex']]);
+    }
+
+    $GLOBALS['cliSpinnerIndex']++;
+}
