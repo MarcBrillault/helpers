@@ -4,16 +4,17 @@
  * Returns an array with the script's arguments
  *
  * @param array $allowedArgs
+ * @param bool  $dieOnEmptyArguments If set to true, the script will die if it is called with no argument
  * @return array
  */
-function cliArguments(array $allowedArgs = [])
+function cliArguments(array $allowedArgs = [], $dieOnEmptyArguments = false)
 {
     $return      = [];
     $regArgument = '/^-[\w]+$/';
     global $argv;
     unset($argv[0]);
     try {
-        if (!empty($allowedArgs) && empty($argv)) {
+        if (empty($argv) && $dieOnEmptyArguments) {
             throw new Exception('There should be at least one argument');
         }
 
@@ -60,17 +61,29 @@ function cliArguments(array $allowedArgs = [])
  */
 function cliSpinner($message = 'Performing action', $end = false)
 {
-    $phases = '\|-/';
+    $phases           = '\|-/';
+    $timeBetweenSpins = 1000; // In microseconds
 
     if (!isset($GLOBALS['cliSpinnerIndex']) || $GLOBALS['cliSpinnerIndex'] >= strlen($phases)) {
         $GLOBALS['cliSpinnerIndex'] = 0;
     }
 
-    if ($end) {
-        printf('%s%s' . PHP_EOL, chr(8), $message);
+    if (isset($GLOBALS['cliSpinnerTime'])) {
+        $lastTime = $GLOBALS['cliSpinnerTime'];
     } else {
-        printf('%s%s %s', chr(13), $message, $phases[$GLOBALS['cliSpinnerIndex']]);
+        $lastTime = 0;
     }
 
-    $GLOBALS['cliSpinnerIndex']++;
+    if ($end) {
+        printf('%s%s' . PHP_EOL, chr(8), $message);
+        unset($GLOBALS['cliSpinnerIndex']);
+        unset($GLOBALS['cliSpinnerTime']);
+    } else {
+        $currentTime = microtime(true);
+        if ($currentTime > ($lastTime + ($timeBetweenSpins / 10000))) {
+            printf('%s%s %s', chr(13), $message, $phases[$GLOBALS['cliSpinnerIndex']]);
+            $GLOBALS['cliSpinnerIndex']++;
+            $GLOBALS['cliSpinnerTime'] = $currentTime;
+        }
+    }
 }
