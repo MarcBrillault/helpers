@@ -22,6 +22,18 @@ The array `$args` will now contain :
 You can also give an array of allowed arguments in the first parameter of `cliArguments()`. Any parameter other than
 the ones listed will generate and error and die.
 
+## cliProgressBar
+
+Displays a nice progressBar.
+
+Since the display is updated less frequently than the spinner, it is slightly quickier than `cliSpinner`.
+
+```php
+foreach($myvar as $var) {
+    cliProgressBar($currentIndex, $total);
+}
+```
+
 ## cliSpinner
 
 Adds a nice spinner to your loops.

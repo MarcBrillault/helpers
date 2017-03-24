@@ -3,7 +3,7 @@
 /**
  * Returns an array with the script's arguments
  *
- * @param array $allowedArgs
+ * @param array $allowedArgs         List of allowed arguments, if any
  * @param bool  $dieOnEmptyArguments If set to true, the script will die if it is called with no argument
  * @return array
  */
@@ -56,8 +56,34 @@ function cliArguments(array $allowedArgs = [], $dieOnEmptyArguments = false)
 }
 
 /**
- * @param string $message
- * @param bool   $end
+ * Displays a progressbar
+ *
+ * @param int    $current The current index
+ * @param int    $total   The total count
+ * @param int    $length  Progress bar's length in characters
+ * @param string $text    Text to display before the spinner
+ * @param string $endText Text to display when the progress has ended
+ */
+function cliProgressBar($current, $total, $length = 10, $text = 'In progress...', $endText = 'Done !')
+{
+    $numberOfBars = floor($length * $current / $total);
+
+    if (!isset($GLOBALS['cliProgressBarNumber']) || $numberOfBars != $GLOBALS['cliProgressBarNumber']) {
+        printf('%s%s %s', chr(13), $text, sprintf('[%-' . $length . 's]', str_repeat('=', $numberOfBars)));
+        $GLOBALS['cliProgressBarNumber'] = $numberOfBars;
+    }
+
+    if ($current == $total) {
+        unset($GLOBALS['cliProgressBarNumber']);
+        echo ' ' . $endText . PHP_EOL;
+    }
+}
+
+/**
+ * Displays a spinner, advancing each time it is called
+ *
+ * @param string $message The message to display
+ * @param bool   $end     If set to true, will display the message and end the spinner
  */
 function cliSpinner($message = 'Performing action', $end = false)
 {
@@ -74,16 +100,16 @@ function cliSpinner($message = 'Performing action', $end = false)
         $lastTime = 0;
     }
 
-    if ($end) {
-        printf('%s%s' . PHP_EOL, chr(8), $message);
-        unset($GLOBALS['cliSpinnerIndex']);
-        unset($GLOBALS['cliSpinnerTime']);
-    } else {
+    if (!$end) {
         $currentTime = microtime(true);
         if ($currentTime > ($lastTime + ($timeBetweenSpins / 10000))) {
             printf('%s%s %s', chr(13), $message, $phases[$GLOBALS['cliSpinnerIndex']]);
             $GLOBALS['cliSpinnerIndex']++;
             $GLOBALS['cliSpinnerTime'] = $currentTime;
         }
+    } else {
+        printf('%s%s' . PHP_EOL, chr(8), $message);
+        unset($GLOBALS['cliSpinnerIndex']);
+        unset($GLOBALS['cliSpinnerTime']);
     }
 }
