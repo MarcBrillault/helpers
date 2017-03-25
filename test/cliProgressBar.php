@@ -1,5 +1,7 @@
 <?php
 
+namespace Brio;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $max  = 100000000;

@@ -1,5 +1,7 @@
 <?php
 
+namespace Brio;
+
 /**
  * Returns an array with the script's arguments
  *
@@ -15,7 +17,7 @@ function cliArguments(array $allowedArgs = [], $dieOnEmptyArguments = false)
     unset($argv[0]);
     try {
         if (empty($argv) && $dieOnEmptyArguments) {
-            throw new Exception('There should be at least one argument');
+            throw new \Exception('There should be at least one argument');
         }
 
         $previousArg = null;
@@ -25,7 +27,7 @@ function cliArguments(array $allowedArgs = [], $dieOnEmptyArguments = false)
                 $currentArg = trim($arg, '-');
                 if (!empty($allowedArgs) && !in_array($currentArg, $allowedArgs)) {
                     // Error if the given argument is not whitelisted
-                    throw new Exception(sprintf('Argument not allowed : %s', $currentArg));
+                    throw new \Exception(sprintf('Argument not allowed : %s', $currentArg));
                 }
                 // New argument's default value is always true
                 $return[$currentArg] = true;
@@ -36,11 +38,11 @@ function cliArguments(array $allowedArgs = [], $dieOnEmptyArguments = false)
                     $previousArg          = null;
                 } else {
                     // two values cannot follow each other
-                    throw new Exception(sprintf('wrong argument : %s', $arg));
+                    throw new \Exception(sprintf('wrong argument : %s', $arg));
                 }
             }
         }
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
         $errorMessage = $e->getMessage() . PHP_EOL;
         if (!empty($allowedArgs)) {
             // If $allowedArgs is set, an error triggers the manual
@@ -87,10 +89,16 @@ function cliProgressBar($current, $total, $length = 10, $text = 'In progress...'
  */
 function cliSpinner($message = 'Performing action', $end = false)
 {
-    $phases           = '\|-/';
-    $timeBetweenSpins = 1000; // In microseconds
+    $phases = [
+        '\\',
+        '|',
+        '/',
+        '—',
+    ];
 
-    if (!isset($GLOBALS['cliSpinnerIndex']) || $GLOBALS['cliSpinnerIndex'] >= strlen($phases)) {
+    $timeBetweenSpins = 500; // In microseconds
+
+    if (!isset($GLOBALS['cliSpinnerIndex']) || $GLOBALS['cliSpinnerIndex'] >= count($phases)) {
         $GLOBALS['cliSpinnerIndex'] = 0;
     }
 
@@ -103,12 +111,12 @@ function cliSpinner($message = 'Performing action', $end = false)
     if (!$end) {
         $currentTime = microtime(true);
         if ($currentTime > ($lastTime + ($timeBetweenSpins / 10000))) {
-            printf('%s%s %s', chr(13), $message, $phases[$GLOBALS['cliSpinnerIndex']]);
+            printf('%s%s %s ', chr(13), $message, $phases[$GLOBALS['cliSpinnerIndex']]);
             $GLOBALS['cliSpinnerIndex']++;
             $GLOBALS['cliSpinnerTime'] = $currentTime;
         }
     } else {
-        printf('%s%s' . PHP_EOL, chr(8), $message);
+        printf('%s%s' . PHP_EOL, chr(8) . chr(8), $message);
         unset($GLOBALS['cliSpinnerIndex']);
         unset($GLOBALS['cliSpinnerTime']);
     }
