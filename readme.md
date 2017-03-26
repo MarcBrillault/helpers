@@ -48,3 +48,44 @@ foreach($myvar as $var) {
 Brio\cliSpinner('Done !', true);
 
 ```
+
+## cliTable
+
+Displays an array as a readable table.
+
+By default, the first value's keys will be used as header names.
+
+```php
+$table = [
+    [
+        'id'    => 1,
+        'name'  => 'John Doe',
+        'email' => 'john@doe.com',
+    ],
+    [
+        'id'    => 2,
+        'name'  => 'Jane Doe',
+        'email' => 'jane@doe.com',
+    ],
+];
+
+echo Brio\cliTable($table);
+```
+will be displayed like this :
+```
+╔════╤══════════╤══════════════╗
+║ id │ name     │ email        ║
+╟────┼──────────┼──────────────╢
+║  1 │ John Doe │ john@doe.com ║
+║  2 │ Jane Doe │ jane@doe.com ║
+╚════╧══════════╧══════════════╝
+```
+
+# strHelpers
+
+## strCut
+
+Cuts a text at a given number of characters.
+
+If `$isTotalLength` is set to `true`, the final maximum length will be `$length`. If it set to false, the final maximum
+length will be `$length + strlen($end)`.

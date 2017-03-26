@@ -17,7 +17,8 @@
     "autoload": {
         "files": [
             "src/cli.php",
-            "src/debug.php"
+            "src/debug.php",
+            "src/str.php"
         ]
     }
 }

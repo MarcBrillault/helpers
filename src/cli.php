@@ -121,3 +121,111 @@ function cliSpinner($message = 'Performing action', $end = false)
         unset($GLOBALS['cliSpinnerTime']);
     }
 }
+
+/**
+ * Display a cli-compatible table from an array
+ *
+ * @todo mb_sprintf ?
+ * @param array $table       The data to display.
+ * @param array $keys        If set, will use this srt of keys to be displayed as header
+ * @param int   $maxColWidth if set, all content length superior than the value will be truncated
+ * @param bool  $compact     Whether the table data should be separated
+ * @return string
+ */
+function cliTable(array $table, array $keys = [], $maxColWidth = 20, $compact = true)
+{
+    $return = '';
+    if (empty($keys)) {
+        $keys = array_keys(array_values($table)[0]);
+    }
+
+    // Preparing the full key array
+    foreach ($keys as $keyIndex => $keyValue) {
+        $keys[$keyIndex] = [
+            'name'   => $keyValue,
+            'length' => mb_strlen($keyValue),
+        ];
+    }
+
+    // Maximum lengths
+    foreach ($table as $tableKey => $line) {
+        $keyCount = 0;
+        foreach ($line as $key => $value) {
+            if ($keyCount >= count($keys)) {
+                continue;
+            }
+            // Transformation of values
+            $type = gettype($value);
+            switch ($type) {
+                case 'boolean':
+                    $value = ($value) ? 'true' : 'false';
+                    break;
+                case 'array':
+                    $value = 'Array';
+                    break;
+                case 'object':
+                    $value = 'Object';
+                    break;
+                case 'resource':
+                    $value = 'Resource';
+                    break;
+            }
+
+            // Max col width
+            $value                  = strCut($value, $maxColWidth, '...', true);
+            $table[$tableKey][$key] = $value;
+
+            $length = mb_strlen($value);
+            if ($keys[$keyCount]['length'] < $length) {
+                $keys[$keyCount]['length'] = $length;
+            }
+            $keyCount++;
+        }
+    }
+
+    // First line display
+    $border    = [];
+    $delimiter = [];
+    foreach ($keys as $key) {
+        $border[]    = str_repeat('═', $key['length'] + 2);
+        $delimiter[] = str_repeat('─', $key['length'] + 2);
+    }
+    $return .= sprintf('╔%s╗' . PHP_EOL, implode('╤', $border));
+
+    // header display
+    $header = [];
+    foreach ($keys as $key) {
+        $header[] = sprintf('%-' . ($key['length'] + 2) . 's', ' ' . $key['name']);
+    }
+    $return .= sprintf('║%s║' . PHP_EOL, implode('│', $header));
+
+    // content display
+    foreach ($table as $key => $line) {
+        if (!$compact || !$key) {
+            // separator
+            $return .= sprintf('╟%s╢' . PHP_EOL, implode('┼', $delimiter));
+        }
+
+        $content  = [];
+        $keyIndex = 0;
+        foreach ($line as $column) {
+            if ($keyIndex >= count($keys)) {
+                continue;
+            }
+
+            if (is_int($column)) {
+                $format = '%' . ($keys[$keyIndex++]['length'] + 1) . 's ';
+            } else {
+                $format = ' %-' . ($keys[$keyIndex++]['length'] + 1) . 's';
+            }
+
+            $content[] = sprintf($format, $column);
+        }
+        $return .= sprintf('║%s║' . PHP_EOL, implode('│', $content));
+    }
+
+    // Last line display
+    $return .= sprintf('╚%s╝' . PHP_EOL, implode('╧', $border));
+
+    return $return;
+}
