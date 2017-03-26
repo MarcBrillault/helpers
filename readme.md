@@ -4,7 +4,7 @@ These are some of the functions I use intensively for my projects.
 
 As I don't want my functions to interfere with any of yours, they all use the `Brio` namespace.
 
-# cliHelpers
+# Commane Line Interface (CLI) helpers
 
 These helpers are made specifically for command-line interfaces (CLI)
 
@@ -81,7 +81,7 @@ will be displayed like this :
 ╚════╧══════════╧══════════════╝
 ```
 
-# strHelpers
+# string helpers
 
 ## strCut
 
