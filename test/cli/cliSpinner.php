@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+namespace Brio;
+
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 $max  = 100000000;
 $text = sprintf('Looping %s times', number_format($max));
