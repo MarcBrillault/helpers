@@ -125,7 +125,6 @@ function cliSpinner($message = 'Performing action', $end = false)
 /**
  * Display a cli-compatible table from an array
  *
- * @todo mb_sprintf ?
  * @param array $table       The data to display.
  * @param array $keys        If set, will use this srt of keys to be displayed as header
  * @param int   $maxColWidth if set, all content length superior than the value will be truncated
@@ -172,7 +171,7 @@ function cliTable(array $table, array $keys = [], $maxColWidth = 20, $compact = 
             }
 
             // Max col width
-            $value                  = strCut($value, $maxColWidth, '...', true);
+            $value                  = strCut($value, $maxColWidth, '…', true);
             $table[$tableKey][$key] = $value;
 
             $length = mb_strlen($value);
@@ -195,7 +194,7 @@ function cliTable(array $table, array $keys = [], $maxColWidth = 20, $compact = 
     // header display
     $header = [];
     foreach ($keys as $key) {
-        $header[] = sprintf('%-' . ($key['length'] + 2) . 's', ' ' . $key['name']);
+        $header[] = strComplete(' ' . $key['name'], $key['length'] + 2);
     }
     $return .= sprintf('║%s║' . PHP_EOL, implode('│', $header));
 
@@ -213,13 +212,11 @@ function cliTable(array $table, array $keys = [], $maxColWidth = 20, $compact = 
                 continue;
             }
 
-            if (is_int($column)) {
-                $format = '%' . ($keys[$keyIndex++]['length'] + 1) . 's ';
+            if (is_int($column) || is_float($column)) {
+                $content[] = strComplete($column . ' ', $keys[$keyIndex++]['length'] + 2, ' ', true);
             } else {
-                $format = ' %-' . ($keys[$keyIndex++]['length'] + 1) . 's';
+                $content[] = strComplete(' ' . $column, $keys[$keyIndex++]['length'] + 2);
             }
-
-            $content[] = sprintf($format, $column);
         }
         $return .= sprintf('║%s║' . PHP_EOL, implode('│', $content));
     }

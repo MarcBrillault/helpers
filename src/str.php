@@ -27,3 +27,43 @@ function strCut($str, $length = 200, $end = '…', $isTotalLength = false)
 
     return $str . $end;
 }
+
+/**
+ * Tells whether a string is encoded in UTF-8
+ *
+ * @todo documentation
+ * @todo test
+ * @param string $str
+ * @return bool
+ */
+function strIsUtf8($str)
+{
+    return mb_detect_encoding($str, ['UTF-8'], true);
+}
+
+/**
+ * Completes a text to match a given length
+ *
+ * If the text is larger than $length, it will be returned unaltered
+ *
+ * @todo documentation
+ * @param string $str
+ * @param int    $length
+ * @param string $fill
+ * @param bool   $fillFromLeft
+ * @return string
+ */
+function strComplete($str, $length, $fill = ' ', $fillFromLeft = false)
+{
+    $fillLength = $length - mb_strlen($str);
+    if (!$fillLength) {
+        return $str;
+    }
+    $fillText = str_repeat($fill, $fillLength);
+
+    if ($fillFromLeft) {
+        return $fillText . $str;
+    }
+
+    return $str . $fillText;
+}
