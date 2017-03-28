@@ -8,8 +8,6 @@ namespace Brio;
  * All the characters will be lowered, accents will be discarded
  * Non-alphanumeric characters will be changed to hyphens
  *
- * @todo test
- * @todo documentation
  * @param string $str
  * @return string
  */

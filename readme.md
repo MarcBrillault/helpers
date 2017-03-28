@@ -81,6 +81,18 @@ will be displayed like this :
 ╚════╧══════════╧══════════════╝
 ```
 
+# SEO helpers
+
+## seoUrl
+Creates an URL from any UTF-8 compatible given string.
+
+It removes the accents, and replaces all non-alphanumeric character by hyphens.
+
+```php
+$url = \Brio\seoUrl("I'm giving my résumé to the café, Señor !");
+// $url equals 'i-m-giving-my-resume-to-the-cafe-senor'
+```
+
 # string helpers
 
 ## strCut
