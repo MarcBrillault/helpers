@@ -3,6 +3,33 @@
 namespace Brio;
 
 /**
+ * Completes a text to match a given length
+ *
+ * If the text is larger than $length, it will be returned unaltered
+ *
+ * @todo documentation
+ * @param string $str
+ * @param int    $length
+ * @param string $fill
+ * @param bool   $fillFromLeft
+ * @return string
+ */
+function strComplete($str, $length, $fill = ' ', $fillFromLeft = false)
+{
+    $fillLength = $length - mb_strlen($str);
+    if (!$fillLength) {
+        return $str;
+    }
+    $fillText = str_repeat($fill, $fillLength);
+
+    if ($fillFromLeft) {
+        return $fillText . $str;
+    }
+
+    return $str . $fillText;
+}
+
+/**
  * Limits the size of a given string
  *
  * @todo don't cut in between words on a long text
@@ -29,6 +56,38 @@ function strCut($str, $length = 200, $end = '…', $isTotalLength = false)
 }
 
 /**
+ * Tests if a given string is valid JSON
+ *
+ * @todo tests
+ * @todo documentation
+ * @param  mixed $str
+ * @return bool
+ */
+function strIsJson($str)
+{
+    if (!is_string($str)) {
+        return false;
+    }
+    json_decode($str);
+
+    return (json_last_error() == JSON_ERROR_NONE);
+}
+
+/**
+ * Returns whether the given string contains HTML
+ *
+ * @todo check if isXml ?
+ * @todo tests
+ * @todo documentation
+ * @param  string $str *
+ * @return bool
+ */
+function isHtml($str)
+{
+    return strlen($str) != strlen(strip_tags($str));
+}
+
+/**
  * Tells whether a string is encoded in UTF-8
  *
  * @todo documentation
@@ -39,31 +98,4 @@ function strCut($str, $length = 200, $end = '…', $isTotalLength = false)
 function strIsUtf8($str)
 {
     return mb_detect_encoding($str, ['UTF-8'], true);
-}
-
-/**
- * Completes a text to match a given length
- *
- * If the text is larger than $length, it will be returned unaltered
- *
- * @todo documentation
- * @param string $str
- * @param int    $length
- * @param string $fill
- * @param bool   $fillFromLeft
- * @return string
- */
-function strComplete($str, $length, $fill = ' ', $fillFromLeft = false)
-{
-    $fillLength = $length - mb_strlen($str);
-    if (!$fillLength) {
-        return $str;
-    }
-    $fillText = str_repeat($fill, $fillLength);
-
-    if ($fillFromLeft) {
-        return $fillText . $str;
-    }
-
-    return $str . $fillText;
 }
