@@ -24,6 +24,10 @@ The array `$args` will now contain :
 You can also give an array of allowed arguments in the first parameter of `cliArguments()`. Any parameter other than
 the ones listed will generate and error and die.
 
+## cliIsInterface
+
+Tells whether the current script is called in a command-line interface.
+
 ## cliProgressBar
 
 Displays a nice progressBar.
@@ -81,7 +85,28 @@ will be displayed like this :
 ╚════╧══════════╧══════════════╝
 ```
 
+# SEO helpers
+
+## seoUrl
+Creates an URL from any UTF-8 compatible given string.
+
+It removes the accents, and replaces all non-alphanumeric character by hyphens.
+
+```php
+$url = \Brio\seoUrl("I'm giving my résumé to the café, Señor !");
+// $url equals 'i-m-giving-my-resume-to-the-cafe-senor'
+```
+
 # string helpers
+
+## strComplete
+
+Completes a string to a given length. If the length is shorter than the string, it will return the full, non-altered string.
+
+```php
+$str = \Brio\strComplete('test', 10, ' ');
+// $str is 'test      '
+```
 
 ## strCut
 
@@ -89,3 +114,17 @@ Cuts a text at a given number of characters.
 
 If `$isTotalLength` is set to `true`, the final maximum length will be `$length`. If it set to false, the final maximum
 length will be `$length + strlen($end)`.
+
+If $length is >= 40, the function will not cut into a word, but just after the previous word.
+
+## strIsJson
+
+Tells whether a given string is valid JSON
+
+## strIsUtf8
+
+Tells whether a given string is encoded in UTF-8.
+
+## strIsXml
+
+Returns whether the given string contains valid XML code (including HTML)

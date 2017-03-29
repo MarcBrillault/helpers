@@ -58,6 +58,16 @@ function cliArguments(array $allowedArgs = [], $dieOnEmptyArguments = false)
 }
 
 /**
+ * Returns true if the current script is called via command line
+ *
+ * @return bool
+ */
+function cliIsInterface()
+{
+    return substr(php_sapi_name(), 0, 3) === 'cli';
+}
+
+/**
  * Displays a progressbar
  *
  * @param int    $current The current index
@@ -134,6 +144,11 @@ function cliSpinner($message = 'Performing action', $end = false)
 function cliTable(array $table, array $keys = [], $maxColWidth = 20, $compact = true)
 {
     $return = '';
+
+    if (empty($table)) {
+        return $return;
+    }
+
     if (empty($keys)) {
         $keys = array_keys(array_values($table)[0]);
     }
@@ -167,6 +182,10 @@ function cliTable(array $table, array $keys = [], $maxColWidth = 20, $compact = 
                     break;
                 case 'resource':
                     $value = 'Resource';
+                    break;
+                case 'integer':
+                case 'double':
+                    $value = number_format($value);
                     break;
             }
 
