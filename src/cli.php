@@ -60,8 +60,6 @@ function cliArguments(array $allowedArgs = [], $dieOnEmptyArguments = false)
 /**
  * Returns true if the current script is called via command line
  *
- * @todo test
- * @todo documentation
  * @return bool
  */
 function cliIsInterface()
@@ -146,6 +144,11 @@ function cliSpinner($message = 'Performing action', $end = false)
 function cliTable(array $table, array $keys = [], $maxColWidth = 20, $compact = true)
 {
     $return = '';
+
+    if (empty($table)) {
+        return $return;
+    }
+
     if (empty($keys)) {
         $keys = array_keys(array_values($table)[0]);
     }

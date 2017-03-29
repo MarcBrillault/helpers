@@ -7,7 +7,6 @@ namespace Brio;
  *
  * If the text is larger than $length, it will be returned unaltered
  *
- * @todo documentation
  * @param string $str
  * @param int    $length
  * @param string $fill
@@ -20,7 +19,11 @@ function strComplete($str, $length, $fill = ' ', $fillFromLeft = false)
     if (!$fillLength) {
         return $str;
     }
-    $fillText = str_repeat($fill, $fillLength);
+
+    $fillText = '';
+    if ($fillLength > 0) {
+        $fillText = str_repeat($fill, $fillLength);
+    }
 
     if ($fillFromLeft) {
         return $fillText . $str;
@@ -32,8 +35,6 @@ function strComplete($str, $length, $fill = ' ', $fillFromLeft = false)
 /**
  * Limits the size of a given string
  *
- * @todo don't cut in between words on a long text
- * @todo define "long text"
  * @param string $str           Text to cut if too long
  * @param int    $length        Maximum length of returned text
  * @param string $end           Text to be displayed at the end of the string to indicate it has been cut
@@ -42,7 +43,7 @@ function strComplete($str, $length, $fill = ' ', $fillFromLeft = false)
  */
 function strCut($str, $length = 200, $end = '…', $isTotalLength = false)
 {
-    if (mb_strlen($str) <= $length || !$length) {
+    if (mb_strlen($str) <= $length || $length <= 0) {
         return $str;
     }
 
@@ -52,14 +53,19 @@ function strCut($str, $length = 200, $end = '…', $isTotalLength = false)
 
     $str = mb_substr($str, 0, $length);
 
+    if ($length >= 40) {
+        $str = mb_substr($str, 0, strrpos($str, ' '));
+    }
+
+    // We delete the commas, hyphens and underscores if they are in last position
+    $str = preg_replace('/([,;_-]+)$/', '', $str);
+
     return $str . $end;
 }
 
 /**
  * Tests if a given string is valid JSON
  *
- * @todo tests
- * @todo documentation
  * @param  mixed $str
  * @return bool
  */
@@ -74,15 +80,12 @@ function strIsJson($str)
 }
 
 /**
- * Returns whether the given string contains HTML
+ * Returns whether the given string contains valid XML code (including HTML)
  *
- * @todo check if isXml ?
- * @todo tests
- * @todo documentation
- * @param  string $str *
+ * @param  string $str
  * @return bool
  */
-function isHtml($str)
+function strIsXml($str)
 {
     return strlen($str) != strlen(strip_tags($str));
 }
@@ -90,12 +93,21 @@ function isHtml($str)
 /**
  * Tells whether a string is encoded in UTF-8
  *
- * @todo documentation
- * @todo test
+ * @author chris@w3style.co.uk
+ * @see    http://php.net/manual/fr/function.mb-detect-encoding.php#68607
+ *
  * @param string $str
  * @return bool
  */
 function strIsUtf8($str)
 {
-    return mb_detect_encoding($str, ['UTF-8'], true);
+    return (bool) preg_match('%(?:
+        [\xC2-\xDF][\x80-\xBF]              # non-overlong 2-byte
+        |\xE0[\xA0-\xBF][\x80-\xBF]         # excluding overlongs
+        |[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
+        |\xED[\x80-\x9F][\x80-\xBF]         # excluding surrogates
+        |\xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+        |[\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+        |\xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+        )+%xs', $str);
 }

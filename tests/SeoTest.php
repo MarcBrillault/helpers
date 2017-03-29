@@ -1,6 +1,10 @@
 <?php
 
-class SeoTest extends \PHPUnit\Framework\TestCase
+namespace Brio;
+
+use PHPUnit\Framework\TestCase;
+
+class SeoTest extends TestCase
 {
     public function testSeoUrl()
     {
@@ -17,7 +21,7 @@ class SeoTest extends \PHPUnit\Framework\TestCase
         ];
 
         foreach ($tests as $data => $awaited) {
-            $this->assertEquals($awaited, \Brio\seoUrl($data));
+            $this->assertEquals($awaited, seoUrl($data));
         }
     }
 }
