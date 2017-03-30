@@ -64,6 +64,17 @@ function strCut($str, $length = 200, $end = '…', $isTotalLength = false)
 }
 
 /**
+ * Tells whether a string contains 4-byte UTF-8 characters
+ *
+ * @param string $str
+ * @return bool
+ */
+function strIsFourByteUtf8($str)
+{
+    return $str != strRemoveFourByteUtf8Characters($str);
+}
+
+/**
  * Tests if a given string is valid JSON
  *
  * @param  mixed $str
@@ -80,21 +91,9 @@ function strIsJson($str)
 }
 
 /**
- * Returns whether the given string contains valid XML code (including HTML)
- *
- * @param  string $str
- * @return bool
- */
-function strIsXml($str)
-{
-    return strlen($str) != strlen(strip_tags($str));
-}
-
-/**
  * Tells whether a string is encoded in UTF-8
  *
- * @author chris@w3style.co.uk
- * @see    http://php.net/manual/fr/function.mb-detect-encoding.php#68607
+ * @see https://www.w3.org/International/questions/qa-forms-utf-8.en
  *
  * @param string $str
  * @return bool
@@ -110,4 +109,35 @@ function strIsUtf8($str)
         |[\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
         |\xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
         )+%xs', $str);
+}
+
+/**
+ * Returns whether the given string contains valid XML code (including HTML)
+ *
+ * @param  string $str
+ * @return bool
+ */
+function strIsXml($str)
+{
+    return strlen($str) != strlen(strip_tags($str));
+}
+
+/**
+ * Removes all four-byte UTF-8 characters from a given string
+ *
+ * @author cmbuckley
+ * @see    http://stackoverflow.com/users/283078/cmbuckley
+ * @see    http://stackoverflow.com/a/16496799/4834168
+ *
+ * @param string $str
+ * @return string
+ */
+function strRemoveFourByteUtf8Characters($str)
+{
+
+    return preg_replace('%(?:
+          \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+        | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+        | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+    )%xs', '', $str);
 }

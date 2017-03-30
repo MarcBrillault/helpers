@@ -223,4 +223,32 @@ LIPSUM;
             $this->assertEquals($expected, strIsXml($data));
         }
     }
+
+    public function testStrRemoveFourByteUtf8()
+    {
+        $tests = [
+            'plain text'                                               => 'plain text',
+            'Texte avec caractères accentués'                          => 'Texte avec caractères accentués',
+            'Text with four-bytes chinese characters 𠜎𠜱𠝹𠱓𠱸𠲖𠳏𠳕' => 'Text with four-bytes chinese characters ',
+            'Emoji: 😀😁😂🤣'                                          => 'Emoji: ',
+        ];
+
+        foreach ($tests as $data => $expected) {
+            $this->assertEquals($expected, strRemoveFourByteUtf8Characters($data));
+        }
+    }
+
+    public function testisStrFourByteUtf8()
+    {
+        $tests = [
+            'plain text'                                               => false,
+            'Texte avec caractères accentués'                          => false,
+            'Text with four-bytes chinese characters 𠜎𠜱𠝹𠱓𠱸𠲖𠳏𠳕' => true,
+            'Emoji: 😀😁😂🤣'                                          => true,
+        ];
+
+        foreach ($tests as $data => $expected) {
+            $this->assertEquals($expected, strIsFourByteUtf8($data));
+        }
+    }
 }
