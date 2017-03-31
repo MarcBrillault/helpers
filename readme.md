@@ -4,7 +4,7 @@ These are some of the functions I use intensively for my projects.
 
 As I don't want my functions to interfere with any of yours, they all use the `Brio` namespace.
 
-# Commane Line Interface (CLI) helpers
+# Command Line Interface (CLI) helpers
 
 These helpers are made specifically for command-line interfaces (CLI)
 
@@ -85,6 +85,29 @@ will be displayed like this :
 ╚════╧══════════╧══════════════╝
 ```
 
+# Debug helpers
+
+## d
+
+Dumps a variable. The second parameters allows to dump only if the corresponding $_REQUEST ($_GET or $_POST) parameter
+exists, and is equivalent to true.
+
+```php
+\Brio\d($myVar);
+```
+
+## dd
+
+Like `\Brio\d()`, this function dumps a variable. It also dies just after.
+ 
+If nothing has been to the browser before the call, and the data is an array or an object, a json header will be sent
+and the data will be displayed as a json string.
+
+
+## pp
+
+Pretty prints a given value by wrapping a var_dump into `<pre>` tags
+
 # SEO helpers
 
 ## seoUrl
@@ -117,6 +140,10 @@ length will be `$length + strlen($end)`.
 
 If $length is >= 40, the function will not cut into a word, but just after the previous word.
 
+## strIsFourByteUtf8
+
+Tells whether a string contains four-byte UTF-8 characters
+
 ## strIsJson
 
 Tells whether a given string is valid JSON
@@ -128,3 +155,9 @@ Tells whether a given string is encoded in UTF-8.
 ## strIsXml
 
 Returns whether the given string contains valid XML code (including HTML)
+
+## strRemoveFourByteUtf8Characters
+
+Replaces all four-bytes UTF-8 characters into a given UTF-8 string.
+
+It can be used to prevent `Illegal mix of collation` errors in your database queries, for example.
