@@ -120,6 +120,10 @@ $url = \Brio\seoUrl("I'm giving my résumé to the café, Señor !");
 // $url equals 'i-m-giving-my-resume-to-the-cafe-senor'
 ```
 
+## unparseUrl
+This method is intended to be a reverse of PHP's builtin [parse_url](http://php.net/manual/en/function.parse-url.php).
+The parsed url's `query` key can be a string or an array.
+
 # string helpers
 
 ## strComplete
