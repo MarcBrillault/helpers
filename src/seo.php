@@ -21,3 +21,85 @@ function seoUrl($str)
 
     return $str;
 }
+
+/**
+ * Performs a reverted parse_url
+ *
+ * @param array $url
+ * @return string
+ */
+function unparseUrl(array $url)
+{
+    $possibleKeys = [
+        'scheme',
+        'host',
+        'port',
+        'user',
+        'pass',
+        'path',
+        'query',
+        'fragment',
+    ];
+
+    $possibleKeysToEncode = [
+        'user',
+        'pass',
+        'host',
+    ];
+
+    // Encoding
+    foreach ($possibleKeys as $possibleKey) {
+        if (in_array($possibleKey, $possibleKeysToEncode) && array_key_exists($possibleKey, $url)) {
+            $url[$possibleKey] = rawurlencode($url[$possibleKey]);
+        }
+    }
+
+    $return = '';
+
+    // Scheme
+    if (isset($url['scheme'])) {
+        $return .= $url['scheme'] . '://';
+    }
+
+    // Credentials
+    if (isset($url['user'])) {
+        $return .= $url['user'];
+
+        if (isset($url['pass'])) {
+            $return .= ':' . $url['pass'];
+        }
+
+        $return .= '@';
+    }
+
+    // Host
+    if (isset($url['host'])) {
+        $return .= $url['host'];
+    }
+
+    // Port
+    if (isset($url['port']) && is_numeric($url['port'])) {
+        $return .= ':' . $url['port'];
+    }
+
+    // Path
+    if (isset($url['path'])) {
+        $return .= $url['path'];
+    }
+
+    // Query
+    if (isset($url['query'])) {
+        if (is_array($url['query'])) {
+            $url['query'] = http_build_query($url['query']);
+        }
+
+        $return .= '?' . $url['query'];
+    }
+
+    // Anchor
+    if (isset($url['fragment'])) {
+        $return .= '#' . $url['fragment'];
+    }
+
+    return $return;
+}
