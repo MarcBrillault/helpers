@@ -23,5 +23,9 @@
       "src/seo.php",
       "src/str.php"
     ]
+  },
+  "scripts": {
+    "testWin": "vendor\\bin\\phpunit",
+    "test": "vendor/bin/phpunit"
   }
 }
