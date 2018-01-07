@@ -92,6 +92,44 @@ function cliProgressBar($current, $total, $length = 10, $text = 'In progress...'
 }
 
 /**
+ * @param string $question
+ * @param array  $answers Index 0 is the correct answer, index 1 the other
+ * @return bool
+ */
+function cliPrompt($question, $answers = [])
+{
+    if (count($answers) < 1) {
+        $answers = ['yes', 'no'];
+    }
+
+    $stringAnswers   = '';
+    $possibleAnswers = [];
+
+    foreach ($answers as $answerKey => $answer) {
+        $stringAnswers .= preg_replace('#^(.)(.*)$#', '[$1]$2', $answer);
+
+        if ($answerKey === 0) {
+            if (count($answers) > 1) {
+                $stringAnswers .= ' / ';
+            }
+            $possibleAnswers[] = mb_strtolower($answer);
+            $possibleAnswers[] = substr(mb_strtolower($answer), 0, 1);
+        }
+    }
+
+    echo $question . ' ' . $stringAnswers . PHP_EOL;
+
+    $handle = fopen("php://stdin", "r");
+    $line   = trim(fgets($handle));
+
+    if (!in_array($line, $possibleAnswers)) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
  * Displays a spinner, advancing each time it is called
  *
  * @param string $message The message to display

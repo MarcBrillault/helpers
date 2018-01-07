@@ -40,6 +40,24 @@ foreach($myvar as $var) {
 }
 ```
 
+## cliPrompt
+Prompts a question to the user, and returns a boolean: `true` if the answer is the first letter or the first answer,
+`false` in every other case.
+
+If no answers are set, default answers are `[y]es / [n]o` 
+
+```php
+Brio\cliPrompt('Do you want to continue ?');
+```
+Will display `Do you want to continue ? [y]es / [n]o`, and will return true if the answer is either `y` or `yes`.
+
+
+```php
+Brio\cliPrompt('Do you want to continue ?', ['continue', 'abort']);
+```
+Will display `Do you want to continue ? [c]ontinue / [a]bort`, and will return true if the answer is either `c` or 
+`continue`.
+
 ## cliSpinner
 
 Adds a nice spinner to your loops.
