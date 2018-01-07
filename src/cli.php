@@ -92,11 +92,13 @@ function cliProgressBar($current, $total, $length = 10, $text = 'In progress...'
 }
 
 /**
+ * Asks a question to the user and returns true or false depending on the answer
+ *
  * @param string $question
- * @param array  $answers Index 0 is the correct answer, index 1 the other
+ * @param array  $answers Index 0 is the answer needed to return true
  * @return bool
  */
-function cliPrompt($question, $answers = [])
+function cliPrompt(string $question, array $answers = []): bool
 {
     if (count($answers) < 1) {
         $answers = ['yes', 'no'];
@@ -117,16 +119,28 @@ function cliPrompt($question, $answers = [])
         }
     }
 
-    echo $question . ' ' . $stringAnswers . PHP_EOL;
+    $userInput = cliQuestion($question . ' ' . $stringAnswers);
 
-    $handle = fopen("php://stdin", "r");
-    $line   = trim(fgets($handle));
-
-    if (!in_array($line, $possibleAnswers)) {
+    if (!in_array($userInput, $possibleAnswers)) {
         return false;
     }
 
     return true;
+}
+
+/**
+ * Asks a question to the user, and returns its answer as a string
+ *
+ * @param string $question
+ * @return string
+ */
+function cliQuestion(string $question): string
+{
+    echo $question . PHP_EOL;
+
+    $handle = fopen("php://stdin", "r");
+
+    return trim(fgets($handle));
 }
 
 /**

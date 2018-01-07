@@ -58,6 +58,14 @@ Brio\cliPrompt('Do you want to continue ?', ['continue', 'abort']);
 Will display `Do you want to continue ? [c]ontinue / [a]bort`, and will return true if the answer is either `c` or 
 `continue`.
 
+## cliQuestion
+
+Displays a question to the user, and returns his answer as a string.
+
+```php
+$answer = Brio\cliQuestion('What is the airspeed velocity of an unladen swallow ?');
+```
+
 ## cliSpinner
 
 Adds a nice spinner to your loops.
