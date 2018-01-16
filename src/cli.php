@@ -276,7 +276,7 @@ function cliTable(array $table, int $maxColWidth = 20): string
             } else {
                 $cellContents = '';
             }
-            if (is_int($cellContents) || is_float($cellContents)) {
+            if (is_numeric($cellContents)) {
                 $content[] = strComplete($cellContents . ' ', $keys[$keyName]['length'] + 2, ' ', true);
             } else {
                 $content[] = strComplete(' ' . $cellContents, $keys[$keyName]['length'] + 2);
