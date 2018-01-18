@@ -188,12 +188,10 @@ function cliSpinner($message = 'Performing action', $end = false)
  * Display a cli-compatible table from an array
  *
  * @param array $table       The data to display.
- * @param array $keys        If set, will use this srt of keys to be displayed as header
- * @param int   $maxColWidth if set, all content length superior than the value will be truncated
- * @param bool  $compact     Whether the table data should be separated
+ * @param int   $maxColWidth All content length superior than the value will be truncated
  * @return string
  */
-function cliTable(array $table, array $keys = [], $maxColWidth = 20, $compact = true)
+function cliTable(array $table, int $maxColWidth = 20): string
 {
     $return = '';
 
@@ -201,25 +199,21 @@ function cliTable(array $table, array $keys = [], $maxColWidth = 20, $compact = 
         return $return;
     }
 
-    if (empty($keys)) {
-        $keys = array_keys(array_values($table)[0]);
-    }
-
-    // Preparing the full key array
-    foreach ($keys as $keyIndex => $keyValue) {
-        $keys[$keyIndex] = [
-            'name'   => $keyValue,
-            'length' => mb_strlen($keyValue),
-        ];
+    $keys = [];
+    foreach ($table as $line) {
+        foreach ($line as $key => $value) {
+            if (!array_key_exists($key, $keys)) {
+                $keys[$key] = [
+                    'name'   => $key,
+                    'length' => mb_strlen($key),
+                ];
+            }
+        }
     }
 
     // Maximum lengths
     foreach ($table as $tableKey => $line) {
-        $keyCount = 0;
         foreach ($line as $key => $value) {
-            if ($keyCount >= count($keys)) {
-                continue;
-            }
             // Transformation of values
             $type = gettype($value);
             switch ($type) {
@@ -227,17 +221,17 @@ function cliTable(array $table, array $keys = [], $maxColWidth = 20, $compact = 
                     $value = ($value) ? 'true' : 'false';
                     break;
                 case 'array':
-                    $value = 'Array';
+                case 'resource':
+                    $value = ucfirst($type);
                     break;
                 case 'object':
-                    $value = 'Object';
-                    break;
-                case 'resource':
-                    $value = 'Resource';
+                    $value = sprintf('%s object', get_class($value));
                     break;
                 case 'integer':
-                case 'double':
                     $value = number_format($value);
+                    break;
+                case 'double':
+                    $value = number_format($value, 2);
                     break;
             }
 
@@ -246,10 +240,9 @@ function cliTable(array $table, array $keys = [], $maxColWidth = 20, $compact = 
             $table[$tableKey][$key] = $value;
 
             $length = mb_strlen($value);
-            if ($keys[$keyCount]['length'] < $length) {
-                $keys[$keyCount]['length'] = $length;
+            if ($keys[$key]['length'] < $length) {
+                $keys[$key]['length'] = $length;
             }
-            $keyCount++;
         }
     }
 
@@ -271,24 +264,25 @@ function cliTable(array $table, array $keys = [], $maxColWidth = 20, $compact = 
 
     // content display
     foreach ($table as $key => $line) {
-        if (!$compact || !$key) {
+        if (!$key) {
             // separator
             $return .= sprintf('╟%s╢' . PHP_EOL, implode('┼', $delimiter));
         }
 
-        $content  = [];
-        $keyIndex = 0;
-        foreach ($line as $column) {
-            if ($keyIndex >= count($keys)) {
-                continue;
-            }
-
-            if (is_int($column) || is_float($column)) {
-                $content[] = strComplete($column . ' ', $keys[$keyIndex++]['length'] + 2, ' ', true);
+        $content = [];
+        foreach ($keys as $keyName => $keyData) {
+            if (array_key_exists($keyName, $line)) {
+                $cellContents = $line[$keyName];
             } else {
-                $content[] = strComplete(' ' . $column, $keys[$keyIndex++]['length'] + 2);
+                $cellContents = '';
+            }
+            if (is_numeric($cellContents)) {
+                $content[] = strComplete($cellContents . ' ', $keys[$keyName]['length'] + 2, ' ', true);
+            } else {
+                $content[] = strComplete(' ' . $cellContents, $keys[$keyName]['length'] + 2);
             }
         }
+
         $return .= sprintf('║%s║' . PHP_EOL, implode('│', $content));
     }
 
