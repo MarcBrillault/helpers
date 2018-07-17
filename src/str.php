@@ -1,6 +1,6 @@
 <?php
 
-namespace Brio;
+namespace Embryo;
 
 /**
  * Completes a text to match a given length

@@ -1,6 +1,6 @@
 <?php
 
-namespace Brio;
+namespace Embryo;
 
 /**
  * Returns an array with the script's arguments
@@ -98,7 +98,7 @@ function cliProgressBar($current, $total, $length = 10, $text = 'In progress...'
  * @param array  $answers Index 0 is the answer needed to return true
  * @return bool
  */
-function cliPrompt(string $question, array $answers = []): bool
+function cliPrompt($question, array $answers = [])
 {
     if (count($answers) < 1) {
         $answers = ['yes', 'no'];
@@ -134,7 +134,7 @@ function cliPrompt(string $question, array $answers = []): bool
  * @param string $question
  * @return string
  */
-function cliQuestion(string $question): string
+function cliQuestion($question)
 {
     echo $question . PHP_EOL;
 
@@ -191,7 +191,7 @@ function cliSpinner($message = 'Performing action', $end = false)
  * @param int   $maxColWidth All content length superior than the value will be truncated
  * @return string
  */
-function cliTable(array $table, int $maxColWidth = 20): string
+function cliTable(array $table, $maxColWidth = 20)
 {
     $return = '';
 

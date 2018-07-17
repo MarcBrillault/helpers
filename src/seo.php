@@ -1,6 +1,6 @@
 <?php
 
-namespace Brio;
+namespace Embryo;
 
 /**
  * Transforms a string into something usable as an URL

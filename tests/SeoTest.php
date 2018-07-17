@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brio;
+namespace Embryo;
 
 use PHPUnit\Framework\TestCase;
 
