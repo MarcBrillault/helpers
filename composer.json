@@ -1,6 +1,6 @@
 {
-  "name": "brio/helpers",
-  "description": "My custom helpers",
+  "name": "embryo/helpers",
+  "description": "Custom helpers",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -11,10 +11,10 @@
   ],
   "minimum-stability": "stable",
   "require": {
-    "php": ">=7.1"
+    "php": ">=5.6"
   },
   "require-dev": {
-    "phpunit/phpunit": "6"
+    "phpunit/phpunit": "5"
   },
   "autoload": {
     "files": [

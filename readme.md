@@ -10,7 +10,7 @@ These helpers are made specifically for command-line interfaces (CLI)
 
 ## cliArguments
 
-Just add `$args = Brio\cliArguments();` at the beginning of your CLI script, and use your CLI script as you do with a bash
+Just add `$args = Embryo\cliArguments();` at the beginning of your CLI script, and use your CLI script as you do with a bash
 script.
 
 ```
@@ -36,7 +36,7 @@ Since the display is updated less frequently than the spinner, it is slightly qu
 
 ```php
 foreach($myvar as $var) {
-    Brio\cliProgressBar($currentIndex, $total);
+    Embryo\cliProgressBar($currentIndex, $total);
 }
 ```
 
@@ -47,13 +47,13 @@ Prompts a question to the user, and returns a boolean: `true` if the answer is t
 If no answers are set, default answers are `[y]es / [n]o` 
 
 ```php
-Brio\cliPrompt('Do you want to continue ?');
+Embryo\cliPrompt('Do you want to continue ?');
 ```
 Will display `Do you want to continue ? [y]es / [n]o`, and will return true if the answer is either `y` or `yes`.
 
 
 ```php
-Brio\cliPrompt('Do you want to continue ?', ['continue', 'abort']);
+Embryo\cliPrompt('Do you want to continue ?', ['continue', 'abort']);
 ```
 Will display `Do you want to continue ? [c]ontinue / [a]bort`, and will return true if the answer is either `c` or 
 `continue`.
@@ -63,7 +63,7 @@ Will display `Do you want to continue ? [c]ontinue / [a]bort`, and will return t
 Displays a question to the user, and returns his answer as a string.
 
 ```php
-$answer = Brio\cliQuestion('What is the airspeed velocity of an unladen swallow ?');
+$answer = Embryo\cliQuestion('What is the airspeed velocity of an unladen swallow ?');
 ```
 
 ## cliSpinner
@@ -72,10 +72,10 @@ Adds a nice spinner to your loops.
 
 ```php
 foreach($myvar as $var) {
-    Brio\cliSpinner('Manipulating data');
+    Embryo\cliSpinner('Manipulating data');
     // Do something
 }
-Brio\cliSpinner('Done !', true);
+Embryo\cliSpinner('Done !', true);
 
 ```
 
@@ -99,7 +99,7 @@ $table = [
     ],
 ];
 
-echo Brio\cliTable($table);
+echo Embryo\cliTable($table);
 ```
 will be displayed like this :
 ```
@@ -119,12 +119,12 @@ Dumps a variable. The second parameters allows to dump only if the corresponding
 exists, and is equivalent to true.
 
 ```php
-\Brio\d($myVar);
+\Embryo\d($myVar);
 ```
 
 ## dd
 
-Like `\Brio\d()`, this function dumps a variable. It also dies just after.
+Like `\Embryo\d()`, this function dumps a variable. It also dies just after.
  
 If nothing has been to the browser before the call, and the data is an array or an object, a json header will be sent
 and the data will be displayed as a json string.
@@ -142,7 +142,7 @@ Creates an URL from any UTF-8 compatible given string.
 It removes the accents, and replaces all non-alphanumeric character by hyphens.
 
 ```php
-$url = \Brio\seoUrl("I'm giving my résumé to the café, Señor !");
+$url = \Embryo\seoUrl("I'm giving my résumé to the café, Señor !");
 // $url equals 'i-m-giving-my-resume-to-the-cafe-senor'
 ```
 
@@ -157,7 +157,7 @@ The parsed url's `query` key can be a string or an array.
 Completes a string to a given length. If the length is shorter than the string, it will return the full, non-altered string.
 
 ```php
-$str = \Brio\strComplete('test', 10, ' ');
+$str = \Embryo\strComplete('test', 10, ' ');
 // $str is 'test      '
 ```
 
