@@ -26,6 +26,11 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
+      - run: php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+      - run: php composer-setup.php
+      - run: php -r "unlink('composer-setup.php');"
+      - run: php composer.phar self-update
+      - run: sudo mv composer.phar /usr/local/bin/composer
       - run: composer install -n --prefer-dist
 
       - save_cache:
