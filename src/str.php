@@ -3,6 +3,23 @@
 namespace Embryo;
 
 /**
+ * Returns base64 value of the image file in parameter
+ *
+ * Warning : as the method uses file_get_contents(), it may not work for urls depending on your server's configuration.
+ *
+ * @param string $imagePath
+ * @return string
+ * @see https://stackoverflow.com/a/13758760/4834168
+ */
+function strBase64ImageEncode($imagePath)
+{
+    $type = pathinfo($imagePath, PATHINFO_EXTENSION);
+    $data = file_get_contents($imagePath);
+
+    return 'data:image/' . $type . ';base64,' . base64_encode($data);
+}
+
+/**
  * Completes a text to match a given length
  *
  * If the text is larger than $length, it will be returned unaltered
