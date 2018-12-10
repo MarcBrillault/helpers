@@ -9,14 +9,15 @@ namespace Embryo;
  *
  * @param string $imagePath
  * @return string
- * @see https://stackoverflow.com/a/13758760/4834168
+ * @see https://stackoverflow.com/a/34087655/4834168
  */
 function strBase64ImageEncode($imagePath)
 {
-    $type = pathinfo($imagePath, PATHINFO_EXTENSION);
-    $data = file_get_contents($imagePath);
+    $finfo = new \finfo(FILEINFO_MIME_TYPE);
+    $type  = $finfo->file($imagePath);
+    $data  = file_get_contents($imagePath);
 
-    return 'data:image/' . $type . ';base64,' . base64_encode($data);
+    return sprintf('data:%s;base64,%s', $type, base64_encode($data));
 }
 
 /**
