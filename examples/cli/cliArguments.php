@@ -1,8 +1,10 @@
 <?php
 
-namespace Brio;
+namespace Embryo;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
+
+cliClear();
 
 // without parameters
 $args = cliArguments();

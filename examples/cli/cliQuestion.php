@@ -1,9 +1,9 @@
 <?php
 
-namespace Brio;
+namespace Embryo;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
-
+cliClear();
 $firstName = cliQuestion('What is your first name ?');
 $lastName  = cliQuestion('What is your last name ?');
 
