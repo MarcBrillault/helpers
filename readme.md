@@ -24,6 +24,11 @@ The array `$args` will now contain :
 You can also give an array of allowed arguments in the first parameter of `cliArguments()`. Any parameter other than
 the ones listed will generate and error and die.
 
+## cliClear
+
+Calling this function clears the command line interface.
+Tested with Windows and Unix environments.
+
 ## cliIsInterface
 
 Tells whether the current script is called in a command-line interface.
@@ -32,7 +37,7 @@ Tells whether the current script is called in a command-line interface.
 
 Displays a nice progressBar.
 
-Since the display is updated less frequently than the spinner, it is slightly quickier than `cliSpinner`.
+Since the display is updated less frequently than the spinner, it is slightly quicker than `cliSpinner`.
 
 ```php
 foreach($myvar as $var) {

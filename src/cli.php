@@ -58,6 +58,16 @@ function cliArguments(array $allowedArgs = [], $dieOnEmptyArguments = false)
 }
 
 /**
+ * Clears the cli screen. Works in Windows and Unix environments.
+ *
+ * @see https://stackoverflow.com/questions/24327544/how-can-clear-screen-in-php-cli-like-cls-command/37853460#37853460
+ */
+function cliClear()
+{
+    echo chr(27) . chr(91) . 'H' . chr(27) . chr(91) . 'J';
+}
+
+/**
  * Returns true if the current script is called via command line
  *
  * @return bool
