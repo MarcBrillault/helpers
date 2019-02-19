@@ -27,14 +27,14 @@ $table = [
 ];
 echo cliTable($table);
 
-echo 'Example with single dimension array';
+echo 'Example with single dimension array:' . PHP_EOL;
 $table = [
     'Name'             => 'Sir Lancelot of Camelot',
     'Quest'            => 'To seek the Holy Grail',
     'Favourite colour' => 'Blue',
 ];
 
-echo cliTable($table);
+echo @cliTable($table);
 
 echo 'Example with Arrays, objects, etc:' . PHP_EOL;
 $table = [
