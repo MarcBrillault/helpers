@@ -209,6 +209,10 @@ function cliTable(array $table, $maxColWidth = 20)
         return $return;
     }
 
+    if (arrayDepth($table) === 1) {
+        $table = [$table];
+    }
+
     $keys = [];
     foreach ($table as $line) {
         foreach ($line as $key => $value) {

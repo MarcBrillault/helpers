@@ -18,6 +18,7 @@
   },
   "autoload": {
     "files": [
+      "src/array.php",
       "src/cli.php",
       "src/debug.php",
       "src/seo.php",

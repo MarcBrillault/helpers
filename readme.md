@@ -4,6 +4,17 @@ These are some of the functions I use intensively for my projects.
 
 As I don't want my functions to interfere with any of yours, they all use the `Brio` namespace.
 
+# Array helpers
+
+## arrayDepth
+
+This function returns the depth of a given array.
+- 0 if the array is empty
+- 1 for unidimensional arrays
+- 2 to x for every other array types
+
+WARNING: a recursive array could currently cause an infinite loop (See issue #29).
+
 # Command Line Interface (CLI) helpers
 
 These helpers are made specifically for command-line interfaces (CLI)
