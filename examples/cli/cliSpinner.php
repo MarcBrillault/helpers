@@ -1,10 +1,11 @@
 <?php
 
-namespace Brio;
+namespace Embryo;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-$max  = 100000000;
+cliClear();
+$max  = 10000000;
 $text = sprintf('Looping %s times', number_format($max));
 
 $start = time();

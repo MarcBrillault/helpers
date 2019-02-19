@@ -1,8 +1,10 @@
 <?php
 
-namespace Brio;
+namespace Embryo;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
+
+cliClear();
 
 echo 'Example with same keys everywhere:' . PHP_EOL;
 
@@ -22,6 +24,14 @@ $table = [
         'name'  => 'Alfred E. Neuman',
         'email' => 'whatmeworry@madmagazine.com',
     ],
+];
+echo cliTable($table);
+
+echo 'Example with single dimension array';
+$table = [
+    'Name'             => 'Sir Lancelot of Camelot',
+    'Quest'            => 'To seek the Holy Grail',
+    'Favourite colour' => 'Blue',
 ];
 
 echo cliTable($table);
