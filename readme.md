@@ -2,7 +2,7 @@
 
 These are some of the functions I use intensively for my projects.
 
-As I don't want my functions to interfere with any of yours, they all use the `Brio` namespace.
+As I don't want my functions to interfere with any of yours, they all use the `Embryo` namespace.
 
 # Array helpers
 
@@ -76,7 +76,7 @@ Will display `Do you want to continue ? [c]ontinue / [a]bort`, and will return t
 
 ## cliQuestion
 
-Displays a question to the user, and returns his answer as a string.
+Displays a question to the user, and returns its answer as a string.
 
 ```php
 $answer = Embryo\cliQuestion('What is the airspeed velocity of an unladen swallow ?');
@@ -142,7 +142,7 @@ exists, and is equivalent to true.
 
 Like `\Embryo\d()`, this function dumps a variable. It also dies just after.
  
-If nothing has been to the browser before the call, and the data is an array or an object, a json header will be sent
+If nothing has been sent to the browser before the call, and the data is an array or an object, a json header will be sent
 and the data will be displayed as a json string.
 
 
@@ -167,6 +167,10 @@ This method is intended to be a reverse of PHP's builtin [parse_url](http://php.
 The parsed url's `query` key can be a string or an array.
 
 # string helpers
+
+## strBase64ImageEncode
+
+Returns the correct base64 value for a given image path.
 
 ## strComplete
 
@@ -204,6 +208,6 @@ Returns whether the given string contains valid XML code (including HTML)
 
 ## strRemoveFourByteUtf8Characters
 
-Replaces all four-bytes UTF-8 characters into a given UTF-8 string.
+Removes all four-bytes UTF-8 characters from a given UTF-8 string.
 
-It can be used to prevent `Illegal mix of collation` errors in your database queries, for example.
+It can be used to prevent `Illegal mix of collation` errors in your database queries, for example, if your database is not set to UTF8MB4.
