@@ -247,7 +247,7 @@ LIPSUM;
         }
     }
 
-    public function testisStrFourByteUtf8()
+    public function testIsStrFourByteUtf8()
     {
         $tests = [
             'plain text'                                               => false,
@@ -258,6 +258,25 @@ LIPSUM;
 
         foreach ($tests as $data => $expected) {
             $this->assertEquals($expected, strIsFourByteUtf8($data));
+        }
+    }
+
+    public function testRemoveAccents()
+    {
+        $tests = [
+            'Athènes'                                    => 'Athenes',
+            'Gdańsk'                                     => 'Gdansk',
+            'Poznań'                                     => 'Poznan',
+            'Wrocław'                                    => 'Wroclaw',
+            'Iaşi'                                       => 'Iasi',
+            'Das große Eszett'                           => 'Das grosse Eszett',
+            'C\'est l\'œuvre de sa vie !'                => 'c\'est l\'oeuvre de sa vie',
+            'El niño'                                    => 'El nino',
+            'I\'m giving my résumé to the café, Señor !' => 'I\'m giving my resume to the cafe, senor !',
+        ];
+
+        foreach ($tests as $data => $expected) {
+            $this->assertEquals($expected, strRemoveAccents($data));
         }
     }
 }

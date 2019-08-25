@@ -206,6 +206,10 @@ Tells whether a given string is encoded in UTF-8.
 
 Returns whether the given string contains valid XML code (including HTML)
 
+## strRemoveAccents
+
+Removes all accented characters from a given string.
+
 ## strRemoveFourByteUtf8Characters
 
 Removes all four-bytes UTF-8 characters from a given UTF-8 string.

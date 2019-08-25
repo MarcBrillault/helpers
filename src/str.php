@@ -141,6 +141,17 @@ function strIsXml($str)
 }
 
 /**
+ * Removes all accents from a given string, and replaces them with the closest ASCII character
+ *
+ * @param $str
+ * @return string
+ */
+function strRemoveAccents($str)
+{
+    return iconv(mb_detect_encoding($str), 'us-ascii//TRANSLIT', $str);
+}
+
+/**
  * Removes all four-byte UTF-8 characters from a given string
  *
  * @author cmbuckley
